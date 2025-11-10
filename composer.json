@@ -1,6 +1,6 @@
 {
-    "name": "mpietrucha/package",
-    "description": "Package description.",
+    "name": "mpietrucha/filterable",
+    "description": "A Laravel filterable package.",
     "license": "MIT",
     "type": "library",
     "version": "1.0.0",
@@ -22,6 +22,11 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Mpietrucha\\Filterable\\": "src/"
+        }
+    },
     "config": {
         "allow-plugins": {
             "ergebnis/composer-normalize": true
@@ -30,11 +35,11 @@
         "sort-packages": true
     },
     "scripts": {
-        "post-create-project-cmd": [
-            "@prettier:config"
-        ],
         "post-update-cmd": [
             "@composer normalize"
+        ],
+        "post-create-project-cmd": [
+            "@prettier:config"
         ],
         "lint": "pint --verbose --parallel",
         "prettier:config": "curl -sSLO https://raw.githubusercontent.com/mpietrucha/prettier/refs/heads/main/dist/.prettierrc",
