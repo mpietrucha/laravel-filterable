@@ -60,8 +60,8 @@ abstract class Embedded extends Field implements FilterInterface, InteractsWithF
     public function jsonSerialize(): array
     {
         return [
-            'dependant' => $this->dependant(),
-        ] |> $this->serialize(...);
+            'dependant' => $this->dependant()->value,
+        ] |> parent::jsonSerialize(...);
     }
 
     protected static function compatibility(object|string $filter): bool

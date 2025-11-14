@@ -3,9 +3,9 @@
 namespace Mpietrucha\Laravel\Filterable;
 
 use Mpietrucha\Laravel\Filterable\Concerns\InteractsWithInput;
-use Mpietrucha\Laravel\Filterable\Concerns\Serializable;
 use Mpietrucha\Laravel\Filterable\Contracts\FieldInterface;
 use Mpietrucha\Laravel\Filterable\Exception\FieldException;
+use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Instance\Path;
@@ -14,7 +14,7 @@ use Mpietrucha\Utility\Type;
 
 abstract class Field implements FieldInterface
 {
-    use Creatable, InteractsWithInput, Serializable;
+    use Creatable, InteractsWithInput;
 
     protected ?string $name = null;
 
@@ -51,9 +51,11 @@ abstract class Field implements FieldInterface
 
     public function jsonSerialize(): array
     {
+        $previous = func_get_args() |> Arr::collapse(...);
+
         return [
             'name' => $this->name(),
             'attribute' => $this->attribute(),
-        ];
+        ] + $previous;
     }
 }

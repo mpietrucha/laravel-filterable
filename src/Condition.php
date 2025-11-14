@@ -32,6 +32,6 @@ class Condition extends Field implements ConditionInterface
     {
         return [
             'filters' => $this->filters()->map->jsonSerialize()->all(),
-        ] |> $this->serialize(...);
+        ] |> parent::jsonSerialize(...);
     }
 }
