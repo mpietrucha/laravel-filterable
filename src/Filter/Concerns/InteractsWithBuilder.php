@@ -12,6 +12,6 @@ trait InteractsWithBuilder
 {
     public static function builder(string $name): BuilderInterface
     {
-        return Builder::create($name);
+        return Builder::name($name);
     }
 }
