@@ -11,11 +11,11 @@ trait Negatable
 {
     public function apply(Builder $query, string $property, mixed $value): void
     {
-        parent::negate($query, $property, $value, parent::apply(...));
+        // parent::negate($query, $property, $value, parent::apply(...));
     }
 
     public function negate(Builder $query, string $property, mixed $value, ?callable $handler = null): void
     {
-        parent::apply($query, $property, $value);
+        // parent::apply($query, $property, $value);
     }
 }

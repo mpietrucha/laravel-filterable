@@ -3,18 +3,14 @@
 namespace Mpietrucha\Laravel\Filterable\Filter;
 
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use Mpietrucha\Laravel\Filterable\Concerns\InteractsWithFilters;
 use Mpietrucha\Laravel\Filterable\Contracts\FilterInterface;
-use Mpietrucha\Laravel\Filterable\Contracts\InteractsWithFiltersInterface;
 use Mpietrucha\Laravel\Filterable\Field;
 use Mpietrucha\Laravel\Package\Translations\Concerns\InteractsWithTranslations;
-use Mpietrucha\Utility\Concerns\Compatible;
-use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Value;
 
-abstract class Embedded extends Field implements FilterInterface, InteractsWithFiltersInterface
+abstract class Embedded extends Field implements FilterInterface
 {
-    use Compatible, InteractsWithFilters, InteractsWithTranslations;
+    use InteractsWithTranslations;
 
     public function __construct()
     {
@@ -51,10 +47,5 @@ abstract class Embedded extends Field implements FilterInterface, InteractsWithF
         return [
             'dependant' => $this->dependant(),
         ] |> parent::jsonSerialize(...);
-    }
-
-    protected static function compatibility(object|string $filter): bool
-    {
-        return Instance::is($filter, FilterInterface::class);
     }
 }

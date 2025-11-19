@@ -2,11 +2,11 @@
 
 namespace Mpietrucha\Laravel\Filterable\Filter\Embedded;
 
-use Mpietrucha\Laravel\Filterable\Filter\Concerns\Apply;
 use Mpietrucha\Laravel\Filterable\Filter\Concerns\Dependant;
+use Mpietrucha\Laravel\Filterable\Filter\Concerns\Handler;
 use Mpietrucha\Laravel\Filterable\Filter\Embedded;
 
 class IsEmpty extends Embedded
 {
-    use Apply\IsEmpty, Dependant\None;
+    use Dependant\None, Handler\IsEmpty;
 }

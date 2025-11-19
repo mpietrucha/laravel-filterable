@@ -3,13 +3,14 @@
 namespace Mpietrucha\Laravel\Filterable;
 
 use Mpietrucha\Laravel\Filterable\Concerns\InteractsWithConditions;
+use Mpietrucha\Laravel\Filterable\Concerns\InteractsWithInput;
 use Mpietrucha\Laravel\Filterable\Contracts\ConditionInterface;
 use Mpietrucha\Laravel\Filterable\Contracts\FilterInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 
 class Condition extends Field implements ConditionInterface
 {
-    use InteractsWithConditions;
+    use InteractsWithConditions, InteractsWithInput;
 
     /**
      * @var null|\Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Laravel\Filterable\Contracts\FilterInterface>

@@ -3,11 +3,12 @@
 namespace Mpietrucha\Laravel\Filterable\Concerns;
 
 use Mpietrucha\Laravel\Filterable\Condition;
+use Mpietrucha\Laravel\Filterable\Contracts\ConditionInterface;
 use Mpietrucha\Laravel\Filterable\Filter;
 
 trait InteractsWithConditions
 {
-    public static function text(string $name, ?string $attribute = null): Condition
+    public static function text(string $name, ?string $attribute = null): ConditionInterface
     {
         $filters = [
             Filter::is(),
@@ -27,7 +28,7 @@ trait InteractsWithConditions
         return Condition::create($name, $attribute, $filters);
     }
 
-    public static function number(string $name, ?string $attribute = null): Condition
+    public static function number(string $name, ?string $attribute = null): ConditionInterface
     {
         $filters = [
             Filter::eq(),

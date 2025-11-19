@@ -3,9 +3,9 @@
 namespace Mpietrucha\Laravel\Filterable\Filter;
 
 use Mpietrucha\Laravel\Filterable\Contracts\FilterInterface;
-use Mpietrucha\Laravel\Filterable\Enums\Dependant;
 use Mpietrucha\Laravel\Filterable\Filter;
 use Mpietrucha\Laravel\Filterable\Filter\Contracts\BuilderInterface;
+use Mpietrucha\Laravel\Filterable\Filter\Enums\Dependant;
 use Mpietrucha\Utility\Concerns\Arrayable;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;

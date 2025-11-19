@@ -1,6 +1,6 @@
 <?php
 
-namespace Mpietrucha\Laravel\Filterable\Enums;
+namespace Mpietrucha\Laravel\Filterable\Filter\Enums;
 
 enum Attribute: string
 {

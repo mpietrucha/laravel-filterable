@@ -4,10 +4,10 @@ namespace Mpietrucha\Laravel\Filterable\Exception;
 
 use Mpietrucha\Utility\Throwable\RuntimeException;
 
-class FilterException extends RuntimeException
+class HandlerException extends RuntimeException
 {
     public function configure(string $filter): string
     {
-        return 'Filter `%s` not found';
+        return 'Handler `%s` not found';
     }
 }

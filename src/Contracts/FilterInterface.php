@@ -3,9 +3,8 @@
 namespace Mpietrucha\Laravel\Filterable\Contracts;
 
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use Mpietrucha\Utility\Contracts\CompatibleInterface;
 
-interface FilterInterface extends CompatibleInterface, FieldInterface
+interface FilterInterface extends FieldInterface
 {
     public function handler(): mixed;
 

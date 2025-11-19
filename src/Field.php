@@ -2,7 +2,6 @@
 
 namespace Mpietrucha\Laravel\Filterable;
 
-use Mpietrucha\Laravel\Filterable\Concerns\InteractsWithInput;
 use Mpietrucha\Laravel\Filterable\Contracts\FieldInterface;
 use Mpietrucha\Laravel\Filterable\Exception\FieldException;
 use Mpietrucha\Utility\Arr;
@@ -14,7 +13,7 @@ use Mpietrucha\Utility\Type;
 
 abstract class Field implements FieldInterface
 {
-    use Creatable, InteractsWithInput;
+    use Creatable;
 
     protected ?string $name = null;
 
@@ -34,9 +33,10 @@ abstract class Field implements FieldInterface
 
         $this->attribute = $attribute ?? static::identify($name);
 
-        $hydrate && $this->field($this->name(), $this->attribute());
-
-        return $this;
+        return match (true) {
+            $hydrate => $this->field($this->name(), $this->attribute()),
+            default => $this
+        };
     }
 
     public function name(): string
