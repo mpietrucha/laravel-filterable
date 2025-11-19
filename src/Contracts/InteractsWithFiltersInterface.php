@@ -15,6 +15,8 @@ namespace Mpietrucha\Laravel\Filterable\Contracts;
  * @method static Filter isNotEmpty()
  * @method static Filter is()
  * @method static Filter isNot()
+ * @method static Filter in()
+ * @method static Filter notIn()
  * @method static Filter contains()
  * @method static Filter doesntContain()
  * @method static Filter startsWith()

@@ -9,6 +9,8 @@ return [
     'lte' => '<=',
     'is' => 'Is',
     'is_not' => 'Is not',
+    'in' => 'In',
+    'not_in' => 'Not in',
     'contains' => 'Contains',
     'doesnt_contain' => 'Does not contain',
     'starts_with' => 'Starts with',

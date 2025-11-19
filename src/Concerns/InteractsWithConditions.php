@@ -12,6 +12,8 @@ trait InteractsWithConditions
         $filters = [
             Filter::is(),
             Filter::isNot(),
+            Filter::in(),
+            Filter::notIn(),
             Filter::contains(),
             Filter::doesntContain(),
             Filter::startsWith(),
