@@ -23,7 +23,7 @@ abstract class Embedded extends Field implements FilterInterface, InteractsWithF
     {
         $identifier = static::identify($this);
 
-        $this->field(static::__($identifier), $identifier, true);
+        $this->field(static::__("filter.$identifier"), $identifier, true);
     }
 
     public function handler(): mixed
