@@ -18,7 +18,7 @@ class Builder implements BuilderInterface, CreatableInterface
 
     protected mixed $handler = null;
 
-    protected ?Dependant $dependant = null;
+    protected ?string $dependant = null;
 
     public function __construct(protected string $name)
     {
@@ -53,7 +53,7 @@ class Builder implements BuilderInterface, CreatableInterface
         return $this;
     }
 
-    public function dependant(Dependant $dependant): static
+    public function dependant(string $dependant): static
     {
         $this->dependant = $dependant;
 
@@ -62,7 +62,7 @@ class Builder implements BuilderInterface, CreatableInterface
 
     public function independent(): static
     {
-        return Dependant::NONE |> $this->dependant(...);
+        return Dependant::NONE->value |> $this->dependant(...);
     }
 
     public function build(): FilterInterface

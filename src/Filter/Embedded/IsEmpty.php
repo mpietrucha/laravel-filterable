@@ -2,16 +2,11 @@
 
 namespace Mpietrucha\Laravel\Filterable\Filter\Embedded;
 
-use Illuminate\Contracts\Database\Eloquent\Builder;
-use Mpietrucha\Laravel\Filterable\Filter\Contracts\IndependentInterface;
+use Mpietrucha\Laravel\Filterable\Filter\Concerns\Apply;
+use Mpietrucha\Laravel\Filterable\Filter\Concerns\Dependant;
 use Mpietrucha\Laravel\Filterable\Filter\Embedded;
-use Mpietrucha\Utility\Str;
 
-class IsEmpty extends Embedded implements IndependentInterface
+class IsEmpty extends Embedded
 {
-    public function apply(Builder $query, string $property, mixed $value): void
-    {
-        $query->whereNull($property);
-        $query->orWhere($property, Str::none());
-    }
+    use Apply\IsEmpty, Dependant\None;
 }

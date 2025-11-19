@@ -3,7 +3,6 @@
 namespace Mpietrucha\Laravel\Filterable\Filter\Contracts;
 
 use Mpietrucha\Laravel\Filterable\Contracts\FilterInterface;
-use Mpietrucha\Laravel\Filterable\Enums\Dependant;
 use Mpietrucha\Utility\Contracts\ArrayableInterface;
 
 /**
@@ -14,7 +13,7 @@ interface BuilderInterface extends ArrayableInterface
     public static function name(string $name): static;
 
     /**
-     * @return array{0: string, 1: null|string, 2: mixed, 3: null|\Mpietrucha\Laravel\Filterable\Enums\Dependant}
+     * @return array{0: string, 1: null|string, 2: mixed, 3: null|string}
      */
     public function toArray(): array;
 
@@ -22,7 +21,7 @@ interface BuilderInterface extends ArrayableInterface
 
     public function handler(mixed $handler): static;
 
-    public function dependant(Dependant $dependant): static;
+    public function dependant(string $dependant): static;
 
     public function independent(): static;
 

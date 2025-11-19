@@ -7,4 +7,8 @@ enum Dependant: string
     case NONE = 'none';
 
     case TEXT = 'text';
+
+    case NUMBER = 'number';
+
+    case IN = 'in';
 }
