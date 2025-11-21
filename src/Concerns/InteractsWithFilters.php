@@ -8,13 +8,15 @@ use Mpietrucha\Laravel\Filterable\Filter\Embedded;
 
 /**
  * @phpstan-require-implements \Mpietrucha\Laravel\Filterable\Contracts\InteractsWithFiltersInterface
+ *
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
  */
 trait InteractsWithFilters
 {
     use Delegable;
 
     /**
-     * @param  array<array-key, mixed>  $arguments
+     * @param  MixedArray  $arguments
      */
     public static function __callStatic(string $method, array $arguments): FilterInterface
     {

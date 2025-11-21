@@ -8,13 +8,15 @@ use Mpietrucha\Laravel\Filterable\Handler\Embedded;
 
 /**
  * @phpstan-require-implements \Mpietrucha\Laravel\Filterable\Contracts\InteractsWithHandlersInterface
+ *
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
  */
 trait InteractsWithHandlers
 {
     use Delegable;
 
     /**
-     * @param  array<array-key, mixed>  $arguments
+     * @param  MixedArray  $arguments
      */
     public static function __callStatic(string $method, array $arguments): HandlerInterface
     {

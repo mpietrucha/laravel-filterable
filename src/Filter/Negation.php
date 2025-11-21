@@ -10,12 +10,15 @@ use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Value;
 use Mpietrucha\Utility\Value\Contracts\EvaluationInterface;
 
+/**
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
+ */
 class Negation implements CreatableInterface
 {
     use Creatable;
 
     /**
-     * @param  null|array<array-key, mixed>  $arguments
+     * @param  null|MixedArray  $arguments
      */
     public function __construct(protected mixed $handler, protected ?array $arguments = null)
     {
@@ -34,7 +37,7 @@ class Negation implements CreatableInterface
     }
 
     /**
-     * @return array<array-key, mixed>
+     * @return MixedArray
      */
     protected function arguments(): array
     {

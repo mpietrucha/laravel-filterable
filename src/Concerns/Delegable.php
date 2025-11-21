@@ -9,6 +9,8 @@ use Mpietrucha\Utility\Str;
 
 /**
  * @internal
+ *
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
  */
 trait Delegable
 {
@@ -17,7 +19,7 @@ trait Delegable
     /**
      * @template TValue of object
      *
-     * @param  array<array-key, mixed>  $arguments
+     * @param  MixedArray  $arguments
      * @param  TValue|class-string<TValue>  $instance
      * @return TValue
      */
