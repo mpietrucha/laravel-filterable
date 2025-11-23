@@ -5,15 +5,15 @@ namespace Mpietrucha\Laravel\Filterable\Contracts;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 
 /**
- * @phpstan-type InputKey int
- * @phpstan-type InputValue mixed
+ * @phpstan-type InputCollectionKey int
+ * @phpstan-type InputCollectionValue mixed
  */
 interface InteractsWithInputInterface
 {
     public function use(mixed $input): static;
 
     /**
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<InputKey, InputValue>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<InputCollectionKey, InputCollectionValue>
      */
     public function input(): EnumerableInterface;
 }
