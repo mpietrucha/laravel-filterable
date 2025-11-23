@@ -7,6 +7,9 @@ use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 
 /**
  * @phpstan-require-implements \Mpietrucha\Laravel\Filterable\Contracts\InteractsWithInputInterface
+ *
+ * @phpstan-import-type InputKey from \Mpietrucha\Laravel\Filterable\Contracts\InteractsWithInputInterface
+ * @phpstan-import-type InputValue from \Mpietrucha\Laravel\Filterable\Contracts\InteractsWithInputInterface
  */
 trait InteractsWithInput
 {
@@ -20,7 +23,7 @@ trait InteractsWithInput
     }
 
     /**
-     * @return \Mpietrucha\Utility\Collection<int, mixed>
+     * @return \Mpietrucha\Utility\Collection<InputKey, InputValue>
      */
     public function input(): EnumerableInterface
     {
