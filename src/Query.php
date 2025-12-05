@@ -14,17 +14,30 @@ use Mpietrucha\Utility\Concerns\Tappable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Contracts\TappableInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
+use Mpietrucha\Utility\Forward\Concerns\Forwardable;
 use Mpietrucha\Utility\Value;
 
 /**
  * @mixin \Illuminate\Contracts\Database\Query\Builder
+ *
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
  */
 class Query implements CreatableInterface, QueryInterface, TappableInterface
 {
-    use Creatable, InteractsWithContext, InteractsWithInput, Tappable;
+    use Creatable, Forwardable, InteractsWithContext, InteractsWithInput, Tappable;
 
     public function __construct(protected Builder $adapter)
     {
+    }
+
+    /**
+     * @param  MixedArray  $arguments
+     */
+    public function __call(string $method, array $arguments): mixed
+    {
+        $adapter = $this->adapter();
+
+        return $this->forward($adapter)->eval($method, $arguments);
     }
 
     public function adapter(): Builder
