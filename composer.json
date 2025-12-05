@@ -29,6 +29,11 @@
             "Mpietrucha\\Laravel\\Filterable\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Mpietrucha\\Analyze\\": "analyze/src/"
+        }
+    },
     "config": {
         "allow-plugins": {
             "ergebnis/composer-normalize": true

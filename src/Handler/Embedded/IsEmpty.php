@@ -2,7 +2,7 @@
 
 namespace Mpietrucha\Laravel\Filterable\Handler\Embedded;
 
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Contracts\Database\Query\Builder;
 use Mpietrucha\Laravel\Filterable\Handler\Embedded;
 use Mpietrucha\Utility\Str;
 

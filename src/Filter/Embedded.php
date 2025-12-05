@@ -2,9 +2,10 @@
 
 namespace Mpietrucha\Laravel\Filterable\Filter;
 
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Contracts\Database\Query\Builder;
 use Mpietrucha\Laravel\Filterable\Contracts\FilterInterface;
 use Mpietrucha\Laravel\Filterable\Field;
+use Mpietrucha\Laravel\Filterable\Storage;
 use Mpietrucha\Laravel\Package\Translations\Concerns\InteractsWithTranslations;
 use Mpietrucha\Utility\Value;
 
@@ -16,7 +17,8 @@ abstract class Embedded extends Field implements FilterInterface
     {
         $identifier = static::identify($this);
 
-        $this->field(static::__("filter.$identifier"), $identifier, true);
+        $this->field("filter.$identifier", $identifier, true);
+        // $this->field(static::__("filter.$identifier"), $identifier, true);
     }
 
     public function handler(): mixed
@@ -46,6 +48,7 @@ abstract class Embedded extends Field implements FilterInterface
     {
         return [
             'dependant' => $this->dependant(),
+            'identity' => Storage::store($this),
         ] |> parent::jsonSerialize(...);
     }
 }
