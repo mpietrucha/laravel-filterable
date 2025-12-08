@@ -30,7 +30,7 @@ abstract class Embedded extends Field implements FilterInterface
         $evaluation = $this->handler() |> Value::for(...);
 
         match (true) { /** @phpstan-ignore match.unhandled */
-            $evaluation->supported() => $evaluation->eval($query, $property, $value),
+            $evaluation->supported() => $evaluation->get($query, $property, $value),
             $evaluation->unsupported() => $query->where($property, $this->attribute(), $value)
         };
     }
