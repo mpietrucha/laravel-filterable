@@ -8,13 +8,15 @@ use Mpietrucha\Laravel\Filterable\Query\Concerns\InteractsWithInput;
 use Mpietrucha\Laravel\Filterable\Query\Contracts\ContextInterface;
 use Mpietrucha\Laravel\Filterable\Query\Contracts\RowInterface;
 use Mpietrucha\Laravel\Filterable\Storage;
+use Mpietrucha\Utility\Concerns\Compatible;
 use Mpietrucha\Utility\Concerns\Creatable;
+use Mpietrucha\Utility\Contracts\CompatibleInterface;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Type;
 
-class Row implements CreatableInterface, RowInterface
+class Row implements CompatibleInterface, CreatableInterface, RowInterface
 {
-    use Creatable, InteractsWithInput;
+    use Compatible, Creatable, InteractsWithInput;
 
     public function property(ContextInterface $context): ?string
     {
@@ -47,10 +49,22 @@ class Row implements CreatableInterface, RowInterface
 
         $property = $this->property($context);
 
-        if (Type::null($filter) || Type::null($property)) {
+        if (static::incompatible($filter)) {
             return;
         }
 
-        $filter->apply($query, $property, $this->value($context));
+        if (static::incompatible($property)) {
+            return;
+        }
+
+        Expression::handle($query, $property, $filter, $this->value($context));
+    }
+
+    /**
+     * @phpstan-assert-if-true !null $value
+     */
+    protected static function compatibility(mixed $value): bool
+    {
+        return Type::not()->null($value);
     }
 }

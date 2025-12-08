@@ -2,7 +2,7 @@
 
 namespace Mpietrucha\Laravel\Filterable\Contracts;
 
-use Illuminate\Contracts\Database\Query\Builder;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 interface FilterInterface extends FieldInterface
 {

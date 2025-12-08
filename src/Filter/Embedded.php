@@ -2,7 +2,7 @@
 
 namespace Mpietrucha\Laravel\Filterable\Filter;
 
-use Illuminate\Contracts\Database\Query\Builder;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Mpietrucha\Laravel\Filterable\Contracts\FilterInterface;
 use Mpietrucha\Laravel\Filterable\Field;
 use Mpietrucha\Laravel\Filterable\Storage;

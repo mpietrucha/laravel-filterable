@@ -2,7 +2,7 @@
 
 namespace Mpietrucha\Laravel\Filterable\Filter\Concerns;
 
-use Illuminate\Contracts\Database\Query\Builder;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 /**
  * @phpstan-require-implements \Mpietrucha\Laravel\Filterable\Contracts\FilterInterface

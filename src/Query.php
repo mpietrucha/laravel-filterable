@@ -3,7 +3,7 @@
 namespace Mpietrucha\Laravel\Filterable;
 
 use Closure;
-use Illuminate\Contracts\Database\Query\Builder;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Mpietrucha\Laravel\Filterable\Concerns\InteractsWithInput;
 use Mpietrucha\Laravel\Filterable\Contracts\QueryInterface;
@@ -18,7 +18,7 @@ use Mpietrucha\Utility\Forward\Concerns\Forwardable;
 use Mpietrucha\Utility\Value;
 
 /**
- * @mixin \Illuminate\Contracts\Database\Query\Builder
+ * @mixin \Illuminate\Contracts\Database\Eloquent\Builder
  *
  * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
  */
@@ -45,14 +45,25 @@ class Query implements CreatableInterface, QueryInterface, TappableInterface
         return $this->adapter;
     }
 
-    public function and(): static
+    public function and(callable $callback): static
     {
-        return $this->where(...) |> $this->next(...);
+        static::scope($callback) |> $this->where(...);
+
+        return $this;
     }
 
-    public function or(): static
+    public function or(callable $callback): static
     {
-        return $this->orWhere(...) |> $this->next(...);
+        static::scope($callback) |> $this->orWhere(...);
+
+        return $this;
+    }
+
+    public function relation(string $relation, callable $callback): static
+    {
+        $this->whereRelation($relation, static::scope($callback));
+
+        return $this;
     }
 
     public function apply(Request $request, ?callable $configurator = null): static
@@ -63,14 +74,23 @@ class Query implements CreatableInterface, QueryInterface, TappableInterface
 
         $this->input()->pipeThrough([
             fn (EnumerableInterface $groups) => Group::create(...) |> $groups->map(...),
-            fn (EnumerableInterface $groups) => $this->and() |> $groups->each->apply(...),
+            fn (EnumerableInterface $groups) => $groups->each->apply(...) |> $this->and(...),
         ]);
 
         return $this;
     }
 
-    protected function next(Closure $query): static
+    protected static function scope(callable $callback): Closure
     {
-        return Value::identity(...) |> Value::for($query)->get(...) |> static::create(...);
+        $evaluation = Value::pipe($callback, static::decorate(...));
+
+        return $evaluation->get(...);
+    }
+
+    protected static function decorate(callable $callback, Builder $adapter): mixed
+    {
+        $evaluation = Value::for($callback);
+
+        return static::create($adapter) |> $evaluation->get(...);
     }
 }

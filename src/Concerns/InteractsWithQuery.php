@@ -2,7 +2,7 @@
 
 namespace Mpietrucha\Laravel\Filterable\Concerns;
 
-use Illuminate\Contracts\Database\Query\Builder;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Mpietrucha\Laravel\Filterable\Contracts\QueryInterface;
 use Mpietrucha\Laravel\Filterable\Query;
 

@@ -46,19 +46,16 @@ abstract class Storage implements CompatibleInterface, UtilizableInterface
             return null;
         }
 
-        /** @var Filter $filter */
         if (static::compatible($filter)) {
             return $filter;
         }
 
-        /** @phpstan-ignore-next-line argument.type */
         $filter = Instance::unserialize($filter);
 
         if (static::incompatible($filter)) {
             return null;
         }
 
-        /** @var Filter $filter */
         static::cache()->put($identity, $filter);
 
         return $filter;
@@ -88,6 +85,9 @@ abstract class Storage implements CompatibleInterface, UtilizableInterface
         return Adapter::create();
     }
 
+    /**
+     * @phpstan-assert-if-true Filter $filter
+     */
     protected static function compatibility(mixed $filter): bool
     {
         return $filter instanceof FilterInterface;

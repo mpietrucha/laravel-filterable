@@ -2,9 +2,6 @@
 
 namespace Mpietrucha\Laravel\Filterable\Query\Contracts;
 
-use Mpietrucha\Laravel\Filterable\Contracts\QueryInterface;
-
-interface GroupInterface extends InteractsWithInputInterface
+interface GroupInterface extends ApplicableInterface, InteractsWithInputInterface
 {
-    public function apply(QueryInterface $query): void;
 }
