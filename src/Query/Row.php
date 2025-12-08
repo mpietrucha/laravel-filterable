@@ -30,7 +30,7 @@ class Row implements CompatibleInterface, CreatableInterface, RowInterface
 
     public function filter(ContextInterface $context): ?FilterInterface
     {
-        $filter = $context->property() |> $this->input()->get(...);
+        $filter = $context->filter() |> $this->input()->get(...);
 
         return match (true) {
             Type::string($filter) => Storage::get($filter),
