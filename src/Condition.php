@@ -29,7 +29,7 @@ class Condition extends Field implements ConditionInterface
 
     public function filters(): EnumerableInterface
     {
-        return $this->filters ??= $this->input()->ensure(FilterInterface::class);
+        return $this->filters ??= $this->input()->values()->ensure(FilterInterface::class);
     }
 
     public function jsonSerialize(): array

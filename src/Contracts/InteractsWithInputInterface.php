@@ -5,7 +5,7 @@ namespace Mpietrucha\Laravel\Filterable\Contracts;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 
 /**
- * @phpstan-type InputCollection \Mpietrucha\Utility\Collection<int, mixed>
+ * @phpstan-type InputCollection \Mpietrucha\Utility\Collection<array-key, mixed>
  */
 interface InteractsWithInputInterface
 {
