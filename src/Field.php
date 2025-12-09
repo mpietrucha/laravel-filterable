@@ -21,10 +21,15 @@ abstract class Field implements FieldInterface
 
     public static function identify(object|string $input): string
     {
-        return match (true) {
+        $identifier = match (true) {
             Type::object($input) => Instance::namespace($input),
             default => $input
-        } |> Path::name(...) |> Str::snake(...);
+        } |> Path::name(...);
+
+        return match (true) {
+            Str::length($identifier) <= 2 => Str::lower($identifier),
+            default => Str::snake($identifier)
+        };
     }
 
     public function field(string $name, ?string $attribute = null, bool $hydrate = false): static

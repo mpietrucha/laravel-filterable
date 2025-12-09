@@ -9,7 +9,7 @@ use Mpietrucha\Laravel\Filterable\Handler;
  */
 trait EndsWith
 {
-    public function handker(): callable
+    public function handler(): callable
     {
         return Handler::endsWith();
     }

@@ -48,9 +48,11 @@ class Expression implements ApplicableInterface, CreatableInterface
 
     public function apply(QueryInterface $query): void
     {
-        $filter = $this->filter();
-
-        $filter->apply($query, $this->property(), $this->value());
+        $this->filter()->apply(
+            $query,
+            $this->property() |> $query->getModel()->qualifyColumn(...),
+            $this->value()
+        );
     }
 
     public function relation(): ?string
