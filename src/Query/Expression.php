@@ -9,6 +9,7 @@ use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Str;
 use Mpietrucha\Utility\Type;
+use Mpietrucha\Utility\Value;
 
 class Expression implements ApplicableInterface, CreatableInterface
 {
@@ -48,11 +49,13 @@ class Expression implements ApplicableInterface, CreatableInterface
 
     public function apply(QueryInterface $query): void
     {
-        $this->filter()->apply(
+        $evaluation = $this->filter()->apply(...) |> Value::attempt(...);
+
+        $evaluation->eval([
             $query,
             $this->property() |> $query->getModel()->qualifyColumn(...),
-            $this->value()
-        );
+            $this->value(),
+        ]);
     }
 
     public function relation(): ?string
