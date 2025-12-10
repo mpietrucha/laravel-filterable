@@ -92,6 +92,10 @@ class Query implements CreatableInterface, QueryInterface, TappableInterface
 
     public function apply(Request $request, ?callable $configurator = null): static
     {
+        if ($this->unsupported($request)) {
+            return $this;
+        }
+
         $this->tap($configurator);
 
         $this->context()->request() |> $request->get(...) |> $this->use(...);
