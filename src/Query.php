@@ -15,6 +15,7 @@ use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Contracts\TappableInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Forward\Concerns\Forwardable;
+use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Value;
 
 /**
@@ -25,6 +26,8 @@ use Mpietrucha\Utility\Value;
 class Query implements CreatableInterface, QueryInterface, TappableInterface
 {
     use Creatable, Forwardable, InteractsWithContext, InteractsWithInput, Tappable;
+
+    protected static mixed $validator = null;
 
     public function __construct(protected Builder $adapter)
     {
@@ -38,6 +41,11 @@ class Query implements CreatableInterface, QueryInterface, TappableInterface
         $adapter = $this->adapter();
 
         return $this->forward($adapter)->eval($method, $arguments);
+    }
+
+    public static function validate(callable $validator): void
+    {
+        static::$validator = $validator;
     }
 
     public function adapter(): Builder
@@ -66,6 +74,22 @@ class Query implements CreatableInterface, QueryInterface, TappableInterface
         return $this;
     }
 
+    public function supported(Request $request): bool
+    {
+        $evaluation = static::validator() |> Value::for(...);
+
+        if ($evaluation->unsupported()) {
+            return true;
+        }
+
+        return $evaluation->boolean($request, $this);
+    }
+
+    final public function unsupported(Request $request): bool
+    {
+        return $this->supported($request) |> Normalizer::not(...);
+    }
+
     public function apply(Request $request, ?callable $configurator = null): static
     {
         $this->tap($configurator);
@@ -92,5 +116,10 @@ class Query implements CreatableInterface, QueryInterface, TappableInterface
         $evaluation = Value::for($callback);
 
         return static::create($adapter) |> $evaluation->get(...);
+    }
+
+    protected static function validator(): mixed
+    {
+        return static::$validator;
     }
 }
