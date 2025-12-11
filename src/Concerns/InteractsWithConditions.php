@@ -46,7 +46,7 @@ trait InteractsWithConditions
         return Condition::create($name, $attribute, $filters);
     }
 
-    public static function enums(string $enum, string $name, ?string $attribute = null): ConditionInterface
+    public static function enum(string $enum, string $name, ?string $attribute = null): ConditionInterface
     {
         $cases = match (true) {
             Enum::compatible($enum) => $enum::collection(),
