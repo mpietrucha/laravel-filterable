@@ -47,7 +47,7 @@ class Context implements ContextInterface, CreatableInterface
 
     protected function get(Attribute $attribute): ?string
     {
-        return $attribute->value |> $this->context()->get(...);
+        return $this->context() |> $attribute->lookup(...);
     }
 
     /**

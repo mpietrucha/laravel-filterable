@@ -8,9 +8,14 @@ use Mpietrucha\Utility\Str;
 
 class IsEmpty extends Embedded
 {
-    public function __invoke(Builder $query, string $property, mixed $value): void
+    public static function value(): string
+    {
+        return Str::none();
+    }
+
+    public function apply(Builder $query, string $property, mixed $value): void
     {
         $query->whereNull($property);
-        $query->orWhere($property, Str::none());
+        $query->orWhere($property, static::value());
     }
 }

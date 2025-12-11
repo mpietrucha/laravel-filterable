@@ -2,8 +2,13 @@
 
 namespace Mpietrucha\Laravel\Filterable\Query\Enums;
 
-enum Attribute: string
+use Mpietrucha\Utility\Enums\Concerns\InteractsWithEnum;
+use Mpietrucha\Utility\Enums\Contracts\InteractsWithEnumInterface;
+
+enum Attribute: string implements InteractsWithEnumInterface
 {
+    use InteractsWithEnum;
+
     case PROPERTY = 'property';
 
     case FILTER = 'filter';

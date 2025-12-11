@@ -11,6 +11,6 @@ trait Gte
 {
     public function attribute(): string
     {
-        return Attribute::GTE->value;
+        return Attribute::GTE->value();
     }
 }

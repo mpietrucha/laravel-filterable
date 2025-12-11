@@ -11,6 +11,6 @@ trait Number
 {
     public function dependant(): string
     {
-        return Dependant::NUMBER->value;
+        return Dependant::NUMBER->value();
     }
 }

@@ -21,6 +21,6 @@ trait InteractsWithInput
 
     public function input(): EnumerableInterface
     {
-        return $this->input |> Collection::create(...);
+        return $this->input |> Collection::bind(...);
     }
 }

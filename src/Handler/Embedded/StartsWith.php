@@ -9,10 +9,13 @@ use Mpietrucha\Utility\Str;
 
 class StartsWith extends Embedded
 {
-    public function __invoke(Builder $query, string $property, mixed $value): void
+    public static function value(mixed $value): string
     {
-        $value = Str::finish(Normalizer::string($value), '%');
+        return Str::finish(Normalizer::string($value), '%');
+    }
 
-        $query->whereLike($property, $value);
+    public function apply(Builder $query, string $property, mixed $value): void
+    {
+        $query->whereLike($property, static::value($value));
     }
 }

@@ -11,6 +11,6 @@ trait Ne
 {
     public function attribute(): string
     {
-        return Attribute::NE->value;
+        return Attribute::NE->value();
     }
 }

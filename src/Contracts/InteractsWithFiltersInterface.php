@@ -23,6 +23,7 @@ namespace Mpietrucha\Laravel\Filterable\Contracts;
  * @method static Filter doesntStartWith()
  * @method static Filter endsWith()
  * @method static Filter doesntEndWith()
+ * @method static Filter enum()
  */
 interface InteractsWithFiltersInterface
 {

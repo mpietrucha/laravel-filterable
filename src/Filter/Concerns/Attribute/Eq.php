@@ -11,6 +11,6 @@ trait Eq
 {
     public function attribute(): string
     {
-        return Attribute::EQ->value;
+        return Attribute::EQ->value();
     }
 }

@@ -11,6 +11,6 @@ trait Lte
 {
     public function attribute(): string
     {
-        return Attribute::LTE->value;
+        return Attribute::LTE->value();
     }
 }

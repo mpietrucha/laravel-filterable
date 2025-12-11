@@ -11,6 +11,6 @@ trait In
 {
     public function dependant(): string
     {
-        return Dependant::IN->value;
+        return Dependant::IN->value();
     }
 }

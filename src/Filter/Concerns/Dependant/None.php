@@ -11,6 +11,6 @@ trait None
 {
     public function dependant(): string
     {
-        return Dependant::NONE->value;
+        return Dependant::NONE->value();
     }
 }

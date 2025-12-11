@@ -5,6 +5,8 @@ namespace Mpietrucha\Laravel\Filterable\Concerns;
 use Mpietrucha\Laravel\Filterable\Condition;
 use Mpietrucha\Laravel\Filterable\Contracts\ConditionInterface;
 use Mpietrucha\Laravel\Filterable\Filter;
+use Mpietrucha\Utility\Collection;
+use Mpietrucha\Utility\Enum;
 
 trait InteractsWithConditions
 {
@@ -40,6 +42,18 @@ trait InteractsWithConditions
             Filter::isEmpty(),
             Filter::isNotEmpty(),
         ];
+
+        return Condition::create($name, $attribute, $filters);
+    }
+
+    public static function enums(string $enum, string $name, ?string $attribute = null): ConditionInterface
+    {
+        $cases = match (true) {
+            Enum::compatible($enum) => $enum::collection(),
+            default => Collection::empty()
+        };
+
+        $filters = Filter::enum(...) |> $cases->map(...);
 
         return Condition::create($name, $attribute, $filters);
     }

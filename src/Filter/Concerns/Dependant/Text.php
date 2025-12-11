@@ -11,6 +11,6 @@ trait Text
 {
     public function dependant(): string
     {
-        return Dependant::TEXT->value;
+        return Dependant::TEXT->value();
     }
 }

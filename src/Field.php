@@ -27,9 +27,9 @@ abstract class Field implements FieldInterface
         } |> Path::name(...);
 
         return match (true) {
-            Str::length($identifier) <= 2 => Str::lower($identifier),
-            default => Str::snake($identifier)
-        };
+            Str::upper($identifier) === $identifier => Str::lower($identifier),
+            default => $identifier
+        } |> Str::snake(...);
     }
 
     public function field(string $name, ?string $attribute = null, bool $hydrate = false): static
