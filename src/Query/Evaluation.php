@@ -64,7 +64,7 @@ class Evaluation implements CompatibleInterface, CreatableInterface
     {
         $handler = $query->whereRelation(...);
 
-        return static::build($handler, Value::pipe($callback, $handler));
+        return static::build(Value::pipe($relation, $handler), $callback);
     }
 
     protected function handler(): EvaluationInterface
