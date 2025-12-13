@@ -3,15 +3,16 @@
 namespace Mpietrucha\Laravel\Filterable\Query;
 
 use Mpietrucha\Laravel\Filterable\Filter\Contracts\FilterInterface;
+use Mpietrucha\Laravel\Filterable\Query\Contracts\ApplicableInterface;
 use Mpietrucha\Laravel\Filterable\Query\Contracts\QueryInterface;
-use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
+use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Str;
 use Mpietrucha\Utility\Type;
 use Mpietrucha\Utility\Value;
 
-class Expression implements CreatableInterface
+class Expression implements ApplicableInterface, CreatableInterface
 {
     use Creatable;
 
@@ -30,9 +31,11 @@ class Expression implements CreatableInterface
 
         $property = $elements->pop();
 
-        $relation = $elements->join($delimiter) |> Str::nullWhenEmpty(...);
+        $expression = static::create($property, $filter, $value);
 
-        static::create($property, $filter, $value)->apply($query, $relation);
+        $relation = $elements->join($delimiter);
+
+        $expression->apply($query, Str::nullWhenEmpty($relation));
     }
 
     public function property(): string
@@ -52,19 +55,25 @@ class Expression implements CreatableInterface
 
     public function apply(QueryInterface $query, ?string $relation = null): void
     {
-        $evaluation = $this->filter()->apply(...) |> Value::attempt(...);
-
-        $arguments = [
-            $this->property() |> $query->getModel()->qualifyColumn(...),
-            $this->value(),
-        ];
-
-        if (Type::string($relation)) {
-            $query->relation($relation, $evaluation, $arguments);
-
+        if ($this->relation($query, $relation)) {
             return;
         }
 
-        Arr::prepend($arguments, $query) |> $evaluation->eval(...);
+        $evaluation = $this->filter()->apply(...) |> Value::attempt(...);
+
+        $evaluation->eval([
+            $query,
+            $this->property() |> $query->getModel()->qualifyColumn(...),
+            $this->value(),
+        ]);
+    }
+
+    protected function relation(QueryInterface $query, ?string $relation = null): bool
+    {
+        if (Type::null($relation)) {
+            return false;
+        }
+
+        return $query->relation($relation, $this) |> Normalizer::boolean(...);
     }
 }

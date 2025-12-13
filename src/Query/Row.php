@@ -51,15 +51,11 @@ class Row implements CompatibleInterface, CreatableInterface, RowInterface
 
     public function apply(QueryInterface $query): void
     {
-        $filter = $this->filter($context = $query->context());
+        $property = $this->property($context = $query->context());
 
-        $property = $this->property($context);
+        $filter = $this->filter($context);
 
-        if (static::incompatible($filter)) {
-            return;
-        }
-
-        if (static::incompatible($property)) {
+        if (static::incompatible($filter) || static::incompatible($property)) {
             return;
         }
 
