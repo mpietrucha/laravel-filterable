@@ -132,7 +132,7 @@ class Query implements CreatableInterface, QueryInterface, TappableInterface, Wr
             $callback,
         ]);
 
-        $forward->eval($method, $parameters)->eval($arguments);
+        Normalizer::array($arguments) |> $forward->eval($method, $parameters)->eval(...);
     }
 
     protected static function validator(): mixed
