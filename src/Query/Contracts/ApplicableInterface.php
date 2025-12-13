@@ -2,8 +2,6 @@
 
 namespace Mpietrucha\Laravel\Filterable\Query\Contracts;
 
-use Mpietrucha\Laravel\Filterable\Contracts\QueryInterface;
-
 /**
  * @internal
  */

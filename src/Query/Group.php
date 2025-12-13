@@ -3,9 +3,9 @@
 namespace Mpietrucha\Laravel\Filterable\Query;
 
 use Closure;
-use Mpietrucha\Laravel\Filterable\Contracts\QueryInterface;
 use Mpietrucha\Laravel\Filterable\Query\Concerns\InteractsWithInput;
 use Mpietrucha\Laravel\Filterable\Query\Contracts\GroupInterface;
+use Mpietrucha\Laravel\Filterable\Query\Contracts\QueryInterface;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;

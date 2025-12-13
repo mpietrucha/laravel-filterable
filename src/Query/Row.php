@@ -2,10 +2,11 @@
 
 namespace Mpietrucha\Laravel\Filterable\Query;
 
-use Mpietrucha\Laravel\Filterable\Contracts\FilterInterface;
-use Mpietrucha\Laravel\Filterable\Contracts\QueryInterface;
+use Mpietrucha\Laravel\Filterable\Filter\Contracts\FilterInterface;
+use Mpietrucha\Laravel\Filterable\Filter\Enums\Dependant;
 use Mpietrucha\Laravel\Filterable\Query\Concerns\InteractsWithInput;
 use Mpietrucha\Laravel\Filterable\Query\Contracts\ContextInterface;
+use Mpietrucha\Laravel\Filterable\Query\Contracts\QueryInterface;
 use Mpietrucha\Laravel\Filterable\Query\Contracts\RowInterface;
 use Mpietrucha\Laravel\Filterable\Storage;
 use Mpietrucha\Utility\Concerns\Compatible;
@@ -38,9 +39,14 @@ class Row implements CompatibleInterface, CreatableInterface, RowInterface
         };
     }
 
-    public function value(ContextInterface $context): mixed
+    public function value(ContextInterface $context, FilterInterface $filter): mixed
     {
-        return $context->value() |> $this->input()->get(...);
+        $value = $context->value() |> $this->input()->get(...);
+
+        return match (true) {
+            $filter->dependant() === Dependant::NONE->value() => null,
+            default => $value
+        };
     }
 
     public function apply(QueryInterface $query): void
@@ -57,7 +63,9 @@ class Row implements CompatibleInterface, CreatableInterface, RowInterface
             return;
         }
 
-        Expression::handle($query, $property, $filter, $this->value($context));
+        $value = $this->value($context, $filter);
+
+        Expression::handle($query, $property, $filter, $value);
     }
 
     /**

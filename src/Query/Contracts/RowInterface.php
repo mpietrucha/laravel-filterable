@@ -2,7 +2,7 @@
 
 namespace Mpietrucha\Laravel\Filterable\Query\Contracts;
 
-use Mpietrucha\Laravel\Filterable\Contracts\FilterInterface;
+use Mpietrucha\Laravel\Filterable\Filter\Contracts\FilterInterface;
 
 interface RowInterface extends ApplicableInterface, InteractsWithInputInterface
 {
@@ -10,5 +10,5 @@ interface RowInterface extends ApplicableInterface, InteractsWithInputInterface
 
     public function filter(ContextInterface $context): ?FilterInterface;
 
-    public function value(ContextInterface $context): mixed;
+    public function value(ContextInterface $context, FilterInterface $filter): mixed;
 }

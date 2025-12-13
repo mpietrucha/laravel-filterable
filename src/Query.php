@@ -2,17 +2,20 @@
 
 namespace Mpietrucha\Laravel\Filterable;
 
-use Closure;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Mpietrucha\Laravel\Filterable\Concerns\InteractsWithInput;
-use Mpietrucha\Laravel\Filterable\Contracts\QueryInterface;
 use Mpietrucha\Laravel\Filterable\Query\Concerns\InteractsWithContext;
+use Mpietrucha\Laravel\Filterable\Query\Concerns\InteractsWithInput;
+use Mpietrucha\Laravel\Filterable\Query\Contracts\QueryInterface;
+use Mpietrucha\Laravel\Filterable\Query\Evaluation;
 use Mpietrucha\Laravel\Filterable\Query\Group;
+use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Concerns\Tappable;
+use Mpietrucha\Utility\Concerns\Wrappable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Contracts\TappableInterface;
+use Mpietrucha\Utility\Contracts\WrappableInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Forward\Concerns\Forwardable;
 use Mpietrucha\Utility\Normalizer;
@@ -23,9 +26,9 @@ use Mpietrucha\Utility\Value;
  *
  * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
  */
-class Query implements CreatableInterface, QueryInterface, TappableInterface
+class Query implements CreatableInterface, QueryInterface, TappableInterface, WrappableInterface
 {
-    use Creatable, Forwardable, InteractsWithContext, InteractsWithInput, Tappable;
+    use Creatable, Forwardable, InteractsWithContext, InteractsWithInput, Tappable, Wrappable;
 
     protected static mixed $validator = null;
 
@@ -53,23 +56,30 @@ class Query implements CreatableInterface, QueryInterface, TappableInterface
         return $this->adapter;
     }
 
-    public function and(callable $callback): static
+    public function and(callable $callback, ?array $arguments = null): static
     {
-        static::scope($callback) |> $this->where(...);
+        $this->evaluate(__FUNCTION__, $callback, $arguments);
 
         return $this;
     }
 
-    public function or(callable $callback): static
+    public function or(callable $callback, ?array $arguments = null): static
     {
-        static::scope($callback) |> $this->orWhere(...);
+        $this->evaluate(__FUNCTION__, $callback, $arguments);
 
         return $this;
     }
 
-    public function relation(string $relation, callable $callback): static
+    public function not(callable $callback, ?array $arguments = null): static
     {
-        $this->whereRelation($relation, static::scope($callback));
+        $this->evaluate(__FUNCTION__, $callback, $arguments);
+
+        return $this;
+    }
+
+    public function relation(string $relation, callable $callback, ?array $arguments = null): static
+    {
+        $this->evaluate(__FUNCTION__, $callback, $arguments, Arr::wrap($relation));
 
         return $this;
     }
@@ -108,18 +118,21 @@ class Query implements CreatableInterface, QueryInterface, TappableInterface
         return $this;
     }
 
-    protected static function scope(callable $callback): Closure
+    /**
+     * @param  null|MixedArray  $arguments
+     * @param  null|MixedArray  $parameters
+     */
+    protected function evaluate(string $method, callable $callback, ?array $arguments = null, ?array $parameters = null): void
     {
-        $evaluation = Value::pipe($callback, static::decorate(...));
+        $forward = Evaluation::class |> $this->forward(...);
 
-        return $evaluation->get(...);
-    }
+        $parameters = Arr::flatten([
+            Normalizer::array($parameters),
+            $this,
+            $callback,
+        ]);
 
-    protected static function decorate(callable $callback, Builder $adapter): mixed
-    {
-        $evaluation = Value::for($callback);
-
-        return static::create($adapter) |> $evaluation->get(...);
+        $forward->eval($method, $parameters)->eval($arguments);
     }
 
     protected static function validator(): mixed

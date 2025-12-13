@@ -2,7 +2,6 @@
 
 namespace Mpietrucha\Laravel\Filterable\Filter\Contracts;
 
-use Mpietrucha\Laravel\Filterable\Contracts\FilterInterface;
 use Mpietrucha\Utility\Contracts\ArrayableInterface;
 
 /**

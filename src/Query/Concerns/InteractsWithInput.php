@@ -7,7 +7,7 @@ namespace Mpietrucha\Laravel\Filterable\Query\Concerns;
  */
 trait InteractsWithInput
 {
-    use \Mpietrucha\Laravel\Filterable\Concerns\InteractsWithInput;
+    use \Mpietrucha\Laravel\Filterable\Field\Concerns\InteractsWithInput;
 
     public function __construct(mixed $input, protected int $index)
     {

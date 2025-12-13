@@ -2,8 +2,8 @@
 
 namespace Mpietrucha\Laravel\Filterable;
 
-use Mpietrucha\Laravel\Filterable\Contracts\FieldInterface;
-use Mpietrucha\Laravel\Filterable\Exception\FieldException;
+use Mpietrucha\Laravel\Filterable\Field\Contracts\FieldInterface;
+use Mpietrucha\Laravel\Filterable\Field\Exception\FieldException;
 use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Instance;

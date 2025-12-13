@@ -2,7 +2,7 @@
 
 namespace Mpietrucha\Laravel\Filterable;
 
-use Mpietrucha\Laravel\Filterable\Contracts\FilterInterface;
+use Mpietrucha\Laravel\Filterable\Filter\Contracts\FilterInterface;
 use Mpietrucha\Laravel\Filterable\Storage\Adapter;
 use Mpietrucha\Laravel\Filterable\Storage\Contracts\AdapterInterface;
 use Mpietrucha\Utility\Collection;
@@ -15,7 +15,7 @@ use Mpietrucha\Utility\Utilizer\Concerns\Utilizable;
 use Mpietrucha\Utility\Utilizer\Contracts\UtilizableInterface;
 
 /**
- * @phptan-typ Filter \Mpietrucha\Laravel\Filterable\Contracts\FilterInterface
+ * @phptan-type Filter \Mpietrucha\Laravel\Filterable\Filter\Contracts\FilterInterface
  *
  * @phpstan-type StorageCacheCollection \Mpietrucha\Utility\Collection<string, Filter>
  */

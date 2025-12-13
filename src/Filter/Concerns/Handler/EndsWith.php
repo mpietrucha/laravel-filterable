@@ -5,7 +5,7 @@ namespace Mpietrucha\Laravel\Filterable\Filter\Concerns\Handler;
 use Mpietrucha\Laravel\Filterable\Handler;
 
 /**
- * @phpstan-require-implements \Mpietrucha\Laravel\Filterable\Contracts\FilterInterface
+ * @phpstan-require-implements \Mpietrucha\Laravel\Filterable\Filter\Contracts\FilterInterface
  */
 trait EndsWith
 {

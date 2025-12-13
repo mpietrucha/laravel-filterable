@@ -2,65 +2,37 @@
 
 namespace Mpietrucha\Laravel\Filterable\Query;
 
-use Mpietrucha\Laravel\Filterable\Contracts\FilterInterface;
-use Mpietrucha\Laravel\Filterable\Contracts\QueryInterface;
-use Mpietrucha\Laravel\Filterable\Query\Contracts\ApplicableInterface;
+use Mpietrucha\Laravel\Filterable\Filter\Contracts\FilterInterface;
+use Mpietrucha\Laravel\Filterable\Query\Contracts\QueryInterface;
+use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Str;
 use Mpietrucha\Utility\Type;
 use Mpietrucha\Utility\Value;
 
-class Expression implements ApplicableInterface, CreatableInterface
+class Expression implements CreatableInterface
 {
     use Creatable;
 
-    public function __construct(protected string $property, protected FilterInterface $filter, protected mixed $value, protected ?string $relation = null)
+    public function __construct(protected string $property, protected FilterInterface $filter, protected mixed $value)
     {
     }
 
-    public function __invoke(QueryInterface $query): void
+    public function __invoke(QueryInterface $query, ?string $relation = null): void
     {
-        $this->apply($query);
+        $this->apply($query, $relation);
     }
 
-    public static function build(string $property, FilterInterface $filter, mixed $value): static
+    public static function handle(QueryInterface $query, string $property, FilterInterface $filter, mixed $value): void
     {
         $elements = Str::explode($property, $delimiter = Str::dot());
 
         $property = $elements->pop();
 
-        $relation = $elements->join($delimiter);
+        $relation = $elements->join($delimiter) |> Str::nullWhenEmpty(...);
 
-        return static::create($property, $filter, $value, Str::nullWhenEmpty($relation));
-    }
-
-    public static function handle(QueryInterface $query, string $property, FilterInterface $filter, mixed $value): void
-    {
-        $expression = static::build($property, $filter, $value);
-
-        $relation = $expression->relation();
-
-        match (true) {
-            Type::string($relation) => $query->relation($relation, $expression),
-            default => $expression->apply($query)
-        };
-    }
-
-    public function apply(QueryInterface $query): void
-    {
-        $evaluation = $this->filter()->apply(...) |> Value::attempt(...);
-
-        $evaluation->eval([
-            $query,
-            $this->property() |> $query->getModel()->qualifyColumn(...),
-            $this->value(),
-        ]);
-    }
-
-    public function relation(): ?string
-    {
-        return $this->relation;
+        static::create($property, $filter, $value)->apply($query, $relation);
     }
 
     public function property(): string
@@ -68,13 +40,31 @@ class Expression implements ApplicableInterface, CreatableInterface
         return $this->property;
     }
 
-    protected function filter(): FilterInterface
+    public function filter(): FilterInterface
     {
         return $this->filter;
     }
 
-    protected function value(): mixed
+    public function value(): mixed
     {
         return $this->value;
+    }
+
+    public function apply(QueryInterface $query, ?string $relation = null): void
+    {
+        $evaluation = $this->filter()->apply(...) |> Value::attempt(...);
+
+        $arguments = [
+            $this->property() |> $query->getModel()->qualifyColumn(...),
+            $this->value(),
+        ];
+
+        if (Type::string($relation)) {
+            $query->relation($relation, $evaluation, $arguments);
+
+            return;
+        }
+
+        Arr::prepend($arguments, $query) |> $evaluation->eval(...);
     }
 }
